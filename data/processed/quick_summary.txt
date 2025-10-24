@@ -1,0 +1,20 @@
+Dataset: data/processed/url_feature.csv
+Rows × Columns: 800 × 22
+Label counts:
+  0 : 500
+  1 : 300
+
+Top 5 numeric features by variance:
+  url_length: 755.87
+  hostname_length: 334.65
+  path_length: 173.74
+  query_length: 112.33
+  count_digits: 49.83
+
+First 5 example rows:
+                                            url scheme  has_https  url_length  hostname_length  path_length  query_length  count_dots  count_slash  count_at  count_dash  count_underscore  count_equals  count_digits  num_subdomains  has_ip  uses_shortner  has_suspicious_word  num_path_tokens  long_hostname  many_digits  label
+                             https://nvidia.com  https          1          18               10            0             0           1            2         0           0                 0             0             0               1       0              0                    0                0              0            0      0
+                             https://aliyun.com  https          1          18               10            0             0           1            2         0           0                 0             0             0               1       0              0                    0                0              0            0      0
+https://2ff4bsamen242725y7567.scanlonchiro.com/  https          1          47               38            1             0           2            3         0           0                 0             0            12               1       0              0                    0                0              1            1      1
+                          https://capcutapi.com  https          1          21               13            0             0           1            2         0           0                 0             0             0               1       0              0                    0                0              0            0      0
+        http://account-review-center.pages.dev/   http          0          39               31            1             0           2            3         0           2                 0             0             0               1       0              0                    1                0              1            0      1
