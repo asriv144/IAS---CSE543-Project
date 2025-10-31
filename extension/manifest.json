@@ -1,0 +1,22 @@
+{
+  "name": "CSE 543 Extension",
+  "description": "Extension for CSE 543 course project",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["phishing_site_urls.csv"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
