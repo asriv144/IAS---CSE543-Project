@@ -35,7 +35,7 @@ def predict(req: UrlReq):
             proba = float(model.predict(X)[0])
         label = 1 if proba > 0.8 else 0
         logging.info("PREDICT: %s -> proba=%s label=%s", req.url, proba, label)
-        return {"label": label, "confidence": proba if label == 0 else 1 - proba}
+        return {"label": label, "confidence": proba if label == 0 else 1 - proba, "url": req.url}
     except Exception as e:
         logging.exception("Predict error")
         raise HTTPException(status_code=400, detail=str(e))
