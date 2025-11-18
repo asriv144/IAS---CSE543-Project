@@ -1,5 +1,72 @@
-<html>
-  <body>
-    <h1>Phishing Detection</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detector</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <div class="popup-header">
+            <div class="header-icon">🛡️</div>
+            <h1>Phishing Detector</h1>
+        </div>
+
+        <!-- Main Content -->
+        <div class="popup-content">
+            <!-- Loading State -->
+            <div id="loading" class="status-card loading-state">
+                <div class="spinner"></div>
+                <p>Analyzing website...</p>
+            </div>
+
+            <!-- Safe State -->
+            <div id="safe" class="status-card safe-state" style="display: none;">
+                <div class="status-icon">✓</div>
+                <h2>This Site is Safe</h2>
+                <p class="status-message">This website appears to be legitimate.</p>
+                <div class="confidence-bar">
+                    <div class="confidence-level safe" id="confidenceSafe"></div>
+                </div>
+                <p class="confidence-text">Confidence: <span id="confidenceTextSafe">0%</span></p>
+            </div>
+
+            <!-- Phishing State -->
+            <div id="phishing" class="status-card phishing-state" style="display: none;">
+                <div class="status-icon danger">⚠️</div>
+                <h2>Phishing Detected!</h2>
+                <p class="status-message">This website may be attempting to steal your information.</p>
+                <div class="warning-box">
+                    <strong>⚠️ Recommendations:</strong>
+                    <ul>
+                        <li>Do not enter personal information</li>
+                        <li>Check the URL carefully</li>
+                        <li>Go back and report if suspicious</li>
+                    </ul>
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-level danger" id="confidenceDanger"></div>
+                </div>
+                <p class="confidence-text">Confidence: <span id="confidenceTextDanger">0%</span></p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error" class="status-card error-state" style="display: none;">
+                <div class="status-icon">⚠️</div>
+                <h2>Unable to Analyze</h2>
+                <p class="status-message">Could not analyze this page. Try reloading.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="popup-footer">
+            <p class="footer-text">URL: <span id="urlDisplay"></span></p>
+            <a href="#" class="learn-more">Learn more about phishing</a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
 </html>
