@@ -19,7 +19,7 @@ def extract_url_features(url:str) -> dict:
     
     parsed=urlparse(url)
     te=tldextract.extract(url)
-    domain=te.top_domain_under_public_suffix or te.registered_domain or ""
+    domain=te.registered_domain or te.domain or ""
     path=parsed.path or ""
     query=parsed.query or ""
 
@@ -41,7 +41,7 @@ def extract_url_features(url:str) -> dict:
     features['count_equals']=url.count('=')
 
     features['count_digits']=sum(c.isdigit() for c in url)
-    features['num_subdomains']=domain.count('.') if domain else (te.subdomain.count('.')+1 if te.subdomain else 0)
+    features['num_subdomains']=len([s for s in te.subdomain.split('.') if s]) if te.subdomain else 0
 
     #IP address in hostname
     features['has_ip']=int(bool(re.search(r'(^|//)(\d{1,3}\.){3}\d{1,3}(:\d+)?', url)))

@@ -1,0 +1,29 @@
+{
+  "model_name": "RandomForest",
+  "model_path": "randomforest_model.joblib",
+  "uses_scaling": false,
+  "scaler_path": "scaler.joblib",
+  "encoder_path": "label_encoder.joblib",
+  "feature_columns": [
+    "has_https",
+    "url_length",
+    "hostname_length",
+    "path_length",
+    "query_length",
+    "count_dots",
+    "count_slash",
+    "count_at",
+    "count_dash",
+    "count_underscore",
+    "count_equals",
+    "count_digits",
+    "num_subdomains",
+    "has_ip",
+    "uses_shortner",
+    "has_suspicious_word",
+    "num_path_tokens",
+    "long_hostname",
+    "many_digits",
+    "scheme_encoded"
+  ]
+}

@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+**/venv/
+**/env/
+**/.venv/
+
+# Data
+data/raw/*.csv
+data/processed/*.csv
+*.csv
+!data/raw/legit_local.csv.example
+
+# Models
+models/*.joblib
+models/*.pkl
+models/metrics.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Cache
+.tranco/
+*.cache
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
