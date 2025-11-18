@@ -1,22 +1,26 @@
 {
-  "name": "CSE 543 Extension",
-  "description": "Extension for CSE 543 course project",
-  "version": "1.0",
   "manifest_version": 3,
+  "name": "Phishing Detector ML",
+  "version": "1.0",
+  "description": "Detects phishing websites using a backend ML API.",
+  "permissions": ["tabs"],
+  "host_permissions": [
+    "http://127.0.0.1:8000/*",
+    "http://*/*",
+    "https://*/*"
+  ],
   "action": {
     "default_popup": "index.html",
     "default_icon": "icon.png"
   },
   "content_scripts": [
     {
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["scripts/content.js"],
-      "matches": ["<all_urls>"]
+      "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources": [
-    {
-      "resources": ["phishing_site_urls.csv"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  "icons": {
+    "128": "icon.png"
+  }
 }
