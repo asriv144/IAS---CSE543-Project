@@ -14,8 +14,9 @@ function render(p) {
   const labelText = p.label === 1 ? "PHISH" : "SAFE";
   statusEl.innerHTML = `<span class="${p.label===1 ? 'phish' : 'safe'}">${labelText}</span> — Confidence: ${p.confidence.toFixed(3)}`;
   detailsEl.innerText = `URL: ${p.url || "(unknown)"}`;
-  rawEl.style.display = "block";
-  rawEl.innerText = JSON.stringify(p, null, 2);
+  // For debugging, show raw JSON
+  // rawEl.style.display = "block";
+  // rawEl.innerText = JSON.stringify(p, null, 2);
 }
 
 // initial load: read storage

@@ -1,4 +1,3 @@
-# src/api.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
@@ -34,9 +33,9 @@ def predict(req: UrlReq):
             proba = float(model.predict_proba(X)[0][1])
         else:
             proba = float(model.predict(X)[0])
-        label = 1 if proba > 0.5 else 0
+        label = 1 if proba > 0.8 else 0
         logging.info("PREDICT: %s -> proba=%s label=%s", req.url, proba, label)
-        return {"label": label, "confidence": proba}
+        return {"label": label, "confidence": proba if label == 0 else 1 - proba}
     except Exception as e:
         logging.exception("Predict error")
         raise HTTPException(status_code=400, detail=str(e))

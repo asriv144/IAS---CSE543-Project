@@ -1,4 +1,3 @@
-// content.js
 (function(){
   const url = window.location.href;
   // send page URL to background service worker
