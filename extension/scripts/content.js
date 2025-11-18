@@ -18,10 +18,11 @@ async function loadBadUrls() {
 
 (async () => {
   const badUrls = await loadBadUrls();
-  const current = window.location.href;
-
-  // You can adjust this comparison to be stricter (e.g., exact match)
-  if (badUrls.some(u => current.includes(u))) {
-    alert("⚠️ WARNING: This site matches a known phishing URL!");
+  const current = window.location.href.split(/[?#]/)[0].replace(/^https?:\/\//, ""); // Strip query, remove http/https for comparison
+  if (badUrls.some(u => current === u)) {
+    // Give user a "Get me out of here!" prompt
+    if (confirm("⚠️ WARNING: This site matches a known phishing URL! Click OK to be redirected to a safe page.")) {
+      window.location.href = "https://www.google.com";
+    }
   }
 })();
