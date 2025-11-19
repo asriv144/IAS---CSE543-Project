@@ -1,6 +1,6 @@
 // extension/scripts/content.js
 
-const API_URL = "http://127.0.0.1:8000/predict"; // FastAPI backend
+const API_URL = "http://127.0.0.1:8000/check_url"; // FastAPI backend
 
 async function checkUrl(url) {
   try {

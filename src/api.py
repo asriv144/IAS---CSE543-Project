@@ -328,7 +328,7 @@ def root():
     return {"status": "ok", "message": "Phishing detection API running"}
 
 
-@app.post("/predict")
+@app.post("/check_url")
 def predict(request: URLRequest):
     """
     Main endpoint for the Chrome extension:
