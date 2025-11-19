@@ -9,4 +9,4 @@ fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
 pydantic>=2.0.0
 xgboost>=2.0.0
-
+python-whois>=0.7.3
