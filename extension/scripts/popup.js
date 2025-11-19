@@ -1,81 +1,67 @@
-document.addEventListener('DOMContentLoaded', () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (!tabs[0]) {
-            showError('No active tab found');
-            return;
-        }
+const API_URL = "http://127.0.0.1:8000/predict";
 
-        const currentTab = tabs[0];
-        const url = currentTab.url;
+document.addEventListener("DOMContentLoaded", () => {
+  const status = document.getElementById("status");
 
-        // Display URL
-        document.getElementById('urlDisplay').textContent = url.length > 50 
-            ? url.substring(0, 47) + '...' 
-            : url;
+  async function checkUrl(url) {
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
 
-        // Listen for real-time updates from background script
-        chrome.storage.onChanged.addListener((changes, area) => {
-            if (area === 'local' && changes[url]) {
-                updateDisplay(url);
-            }
-        });
+      if (!res.ok) {
+        console.warn("Popup → backend non-200:", res.status);
+        return { isPhishing: false, raw: null };
+      }
 
-        // Initial check
-        updateDisplay(url);
-    });
+      const data = await res.json();
+      console.log("Popup → backend result:", data);
+
+      const isPhishing = !!(
+        data.is_phishing ??
+        data.phishing ??
+        (data.label === "bad")
+      );
+
+      return { isPhishing, raw: data };
+    } catch (e) {
+      console.warn("Popup → backend unreachable", e);
+      return { isPhishing: false, raw: null };
+    }
+  }
+
+  chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+    const tab = tabs[0];
+    if (!tab || !tab.url) {
+      status.textContent = "Not a valid page.";
+      return;
+    }
+
+    let url;
+    try {
+      url = tab.url;
+      const parsed = new URL(url);
+      if (!/^https?:$/.test(parsed.protocol)) {
+        status.textContent = "Not an HTTP/HTTPS page.";
+        return;
+      }
+    } catch (e) {
+      status.textContent = "Invalid URL.";
+      return;
+    }
+
+    status.textContent = "Checking with ML model...";
+
+    const result = await checkUrl(url);
+
+    if (result.isPhishing) {
+      status.style.color = "#b00020";
+      status.textContent = "⚠️ PHISHING SITE DETECTED!";
+    } else {
+      status.style.color = "#0b8043";
+      status.textContent = "✓ Not flagged by ML model";
+    }
+  });
 });
-
-function updateDisplay(url) {
-    chrome.storage.local.get([url], (result) => {
-        if (result[url] && result[url].status) {
-            const status = result[url].status;
-            hideAllStates();
-
-            if (status === 'safe') {
-                showSafe();
-            } else if (status === 'phishing') {
-                showPhishing();
-            } else {
-                showError('Unknown status');
-            }
-        } else {
-            // Still analyzing
-            hideAllStates();
-            document.getElementById('loading').style.display = 'flex';
-        }
-    });
-}
-
-function hideAllStates() {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('safe').style.display = 'none';
-    document.getElementById('phishing').style.display = 'none';
-    document.getElementById('error').style.display = 'none';
-}
-
-function showSafe() {
-    document.getElementById('safe').style.display = 'block';
-    animateConfidenceBar('confidenceSafe', 'confidenceTextSafe', 85);
-}
-
-function showPhishing() {
-    document.getElementById('phishing').style.display = 'block';
-    animateConfidenceBar('confidenceDanger', 'confidenceTextDanger', 92);
-}
-
-function showError(message) {
-    document.getElementById('error').style.display = 'block';
-}
-
-function animateConfidenceBar(barId, textId, targetPercentage) {
-    let current = 0;
-    const interval = setInterval(() => {
-        current += Math.random() * 20;
-        if (current >= targetPercentage) {
-            current = targetPercentage;
-            clearInterval(interval);
-        }
-        document.getElementById(barId).style.width = current + '%';
-        document.getElementById(textId).textContent = Math.round(current) + '%';
-    }, 50);
-}
